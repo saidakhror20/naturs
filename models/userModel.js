@@ -82,3 +82,5 @@ userSchema.methods.changePasswordToken = function(){
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+
+console.log('HI');
