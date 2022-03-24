@@ -60,13 +60,13 @@ userSchema.pre('save', function(next){
     next()
 })
 
-userSchema.methods.correctPassword =  async function(candidatePassword, userPassword){
-    return await bcrypt.compare(candidatePassword, userPassword)
+userSchema.methods.correctPassword = async function(candidatePassword, userPassword){
+   return await bcrypt.compare(candidatePassword, userPassword)
 }
 
 userSchema.methods.changedPasswordAfter = function(tokenTimestamp){
     if(this.passwordChangedAt){
-        const changedPasswordTime = parseInt(this.passwordChangedAt.getTime()/1000);
+        const changedPasswordTime = parseInt(this.passwordChangedAt.getTime()/1000,10);
         return tokenTimestamp < changedPasswordTime
     }
     return false
@@ -82,5 +82,3 @@ userSchema.methods.changePasswordToken = function(){
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-
-console.log('HI');
