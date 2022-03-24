@@ -7,8 +7,6 @@ const bodyFilter = function(body, ...filter){
     return body
 }
 
-
-
 exports.updateMe = catchAsync(async(req,res,next)=>{
     if(req.body.password||req.body.passwordConfirm){
         return next(new AppError("Sorry you can't update password here, go to /updatePassword"), 400)
@@ -21,6 +19,15 @@ exports.updateMe = catchAsync(async(req,res,next)=>{
         satus:"success",
         data:updatedUser
     })
+    }
+)
+
+exports.deleteMe = catchAsync(
+    async(req,res,next)=>{
+        await User.findByIdAndUpdate(req.user.id, {active:false})
+        res.status(204).json({
+            status:"success"
+        })
     }
 )
 exports.addUser = async (req,res)=>{
