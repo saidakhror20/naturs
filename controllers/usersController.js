@@ -1,5 +1,28 @@
+const AppError = require('../utils/appError')
+const catchAsync = require('../utils/catchAsync')
 const User = require('./../models/userModel')
 
+const bodyFilter = function(body, ...filter){
+    filter.forEach(el =>delete body[el])
+    return body
+}
+
+
+
+exports.updateMe = catchAsync(async(req,res,next)=>{
+    if(req.body.password||req.body.passwordConfirm){
+        return next(new AppError("Sorry you can't update password here, go to /updatePassword"), 400)
+    }
+    const x = bodyFilter(req.body, 'role')
+
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, x, {new:true, runValidators:true})
+
+    res.status(200).json({
+        satus:"success",
+        data:updatedUser
+    })
+    }
+)
 exports.addUser = async (req,res)=>{
     try{
         const newUser = await User.create(req.body)
