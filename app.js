@@ -20,7 +20,7 @@ app.use(mongoSanitize());
 app.use(xss())
 // Prevent parametre pollution
 app.use(hpp({
-    whitelist:['duration']
+    whitelist:['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSize']
 }))
 
 // STATIC files
